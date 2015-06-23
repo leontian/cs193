@@ -24,7 +24,7 @@ class ViewController: UIViewController {
             if let result = brain.performOperation(operation) {
                 displayValue = result
             } else {
-                displayValue = 0
+                displayValue = nil
                 //TODO
             }
             
@@ -34,10 +34,10 @@ class ViewController: UIViewController {
     
     @IBAction func enter() {
         usrIsInTheMiddleOfTypingADigit = false
-        if let result = brain.pushOperand(displayValue) {
+        if let result = brain.pushOperand(displayValue!) {
             displayValue = result
         } else {
-            displayValue = 0
+            displayValue = nil
             //TODO
         }
         
@@ -55,12 +55,19 @@ class ViewController: UIViewController {
         //println("digit = \(digit)")
     }
     
-    var displayValue: Double {
+    var displayValue: Double? {
         get {
-            return NSNumberFormatter().numberFromString(display.text!)!.doubleValue
+            if let _ = display.text {
+                return NSNumberFormatter().numberFromString(display.text!)!.doubleValue
+            }
+            return nil
         }
         set {
+            if let _ = newValue {
+                display.text = "\(newValue!)"
+            } else {
             display.text = "\(newValue)" // newValue is automatically set to the value after "="
+            }
         }
     }
 }
