@@ -49,6 +49,8 @@ class ViewController: UIViewController {
     }
     
     var operandStack = [Double]()
+    //var operandStackTest: Array<Double> = Array<Double>()
+    
     
     @IBAction func enter() {
         usrIsInTheMiddleOfTypingADigit = false
@@ -73,7 +75,7 @@ class ViewController: UIViewController {
             return NSNumberFormatter().numberFromString(display.text!)!.doubleValue
         }
         set {
-            display.text = "\(newValue)"
+            display.text = "\(newValue)" // newValue is automatically set to the value after "="
         }
     }
 }

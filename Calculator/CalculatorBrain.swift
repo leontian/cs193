@@ -46,6 +46,8 @@ class CalculatorBrain
         
     }
     
+    
+    // here return value is a tuple, could be unnamed
     private func evaluate(ops: [Op]) -> (result: Double?, remainingOps: [Op]) {
         if !ops.isEmpty {
             var remainingOps = ops
@@ -59,14 +61,21 @@ class CalculatorBrain
                     return (operation(operand), operandEvaluation.remainingOps)
                 }
             case .BinaryOperation(_, let operation):
-                return (0, remainingOps); //TODO
+                let operand1Evaluation = evaluate(remainingOps)
+                if let operand1 = operand1Evaluation.result {
+                    let operand2Evaluation = evaluate(remainingOps)
+                    if let operand2 = operand2Evaluation.result {
+                        return (operation(operand1, operand2), operand2Evaluation.remainingOps)
+                    }
+                }
             }
         }
         return (nil, ops)
     }
     
-    private func evaluate() {
-        
+    private func evaluate() -> Double? {
+        let (result, remainingOps) = evaluate(opStack)
+        return result
     }
     
     func pushOperand(operand: Double) {
