@@ -9,17 +9,40 @@
 import UIKit
 
 class ViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+    
+    @IBOutlet weak var display: UILabel!
+    var usrIsInTheMiddleOfTypingADigit = false
+    
+    @IBAction func operate(sender: UIButton) {
+    
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    var operandStack = [Double]()
+    
+    @IBAction func enter() {
+        usrIsInTheMiddleOfTypingADigit = false
+        operandStack.append(displayValue)
     }
-
-
+    
+    @IBAction func appendDigit(sender: UIButton) {
+        let digit = sender.currentTitle!
+        if usrIsInTheMiddleOfTypingADigit {
+            display.text = display.text! + digit
+        }
+        else {
+            display.text = digit
+            usrIsInTheMiddleOfTypingADigit = true
+        }
+        //println("digit = \(digit)")
+    }
+    
+    var displayValue: Double {
+        get {
+            return NSNumberFormatter().numberFromString(display.text!)!.doubleValue
+        }
+        set {
+            display.text = "\(newValue)"
+        }
+    }
 }
 
